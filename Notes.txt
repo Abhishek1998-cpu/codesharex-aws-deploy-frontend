@@ -1,0 +1,91 @@
+Track Timing - 23.52, 35, 45, 51, 1:33, 1:44, 2:35, 2:52, 3.05
+3:36 
+
+Track Timing Backend - 12:30, 24:16, 34:20
+Track Timing Database - Part 2 36:19 (Implemented Polling)
+
+Theme - Red and White
+For Validation - Vuelidate
+For Routing - Vue router
+Styling - Vue Bootstrap
+Notification - Vue toast notification - https://www.npmjs.com/package/vue-toast-notification
+Class Names - Hypenated
+Component Names - CamelCase convention
+Props Names - pascelCase convention
+Avatar - Vue Avatar
+Code Compilation library - Code Mirror Open Source editor - https://codemirror.net/
+
+
+Backend - 
+Node Js Framework - Express
+Web Socket - socket.io, socket.io-client
+
+
+Features and Bugs left - 
+Auto Sync on first load - Fixed - Done
+Leave room button functionality - Other user is getting notified - Fixed - Done
+Form Validation using Vuelidate - Left / Not required
+Styling of the Home / Login Page - 13th August - Show More Details Styling - left
+Left alignment of the code editor - Done
+Height of the Editor should be half screen and in the other Half output will be shown - Done
+Code Compilation - C++ Done
+Code Compilation - Python Done
+Code Compilation - Js 
+Code Compilation - C Done
+Code Compilation - Java Done
+Error handling when the wrong code is provided by the user - Use axios in the Frontend - 10th Aug - Done
+Implementation of Mongo Database - 10th Aug - Done
+Use Vue Axios with the Normal Axios Package 
+Implement VueX for Global State Management
+Readme File Updation - Done - More Update required
+User Identification - User with same Name case 
+User Identification - User should be able to know which one is he in the list of user
+404 Page not found Implementation - Done
+Bug - User 3 is sometimes not getting the same code written in others 
+
+Build and Deployment - Done - Issue - 
+Java and C++ Compilation Issues
+
+Code Compilation Task - 
+
+C++ - Done
+C++ Approach - We need to generate a C++ file with content from the Request
+After that we need to run the file and send the response back
+ 
+Python - Done - 
+Approach - Execute file and get the result using Node js exec command
+
+
+Solution of Server already in use Issue - 
+First, you would want to know which process is using port 3000
+
+sudo lsof -i :3000
+this will list all PID listening on this port, once you have the PID you can terminate it with the following:
+
+kill -9 {PID}
+
+
+Mongo DB Atlas Details - 
+Project Name - CodeShareX
+Username - Abhishek
+Pass - 000
+Database Name - codesharex  
+Collection Name - code
+DB Connection String / URL = mongodb+srv://Abhishek:<password>@cluster0.dg7dbtp.mongodb.net/?retryWrites=true&w=majority
+
+AWS EC2- Deployment - 
+Reference Video - https://www.youtube.com/watch?v=mpCZuQ17nHs&list=LL&index=1
+
+Time Track - 
+10:26 - Got access to AWS Ubuntu terminal from my local
+
+Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-13-57-11-58.us-west-1.compute.amazonaws.com
+Installed Package / Compiler's on AWS - 
+g++
+gcc 
+Python3 
+Java
+
+We need to make two different git repo / We will host and connect them on AWS Seperately on seperate folders
+One for frontend 
+One for backend 
