@@ -12,7 +12,7 @@ Vue.use(
   new VueSocketIO({
     debug: true,
     connection: SocketIO(
-      "http://ec2-54-159-198-233.compute-1.amazonaws.com:5000/"
+      "http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/"
     ),
   })
 );
