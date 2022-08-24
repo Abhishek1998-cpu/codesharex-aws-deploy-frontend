@@ -80,12 +80,15 @@ Time Track -
 10:26 - Got access to AWS Ubuntu terminal from my local
 
 Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-13-57-11-58.us-west-1.compute.amazonaws.com
-Installed Package / Compiler's on AWS - 
+Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-54-159-198-233.compute-1.amazonaws.com
+Installed Package / Compiler's on AWS - Done
 g++
 gcc 
 Python3 
 Java
 
-We need to make two different git repo / We will host and connect them on AWS Seperately on seperate folders
+We need to make two different git repo / We will host and connect them on AWS Seperately on seperate folders - Done
 One for frontend 
 One for backend 
+
+Read, Write and Execute access on Amazon EC2 instance command - sudo chmod u=rwx,g=rxw,o=rxw nameOfTheFolderOrFile

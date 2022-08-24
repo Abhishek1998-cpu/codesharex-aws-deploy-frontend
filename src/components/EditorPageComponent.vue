@@ -126,7 +126,7 @@ export default {
   data() {
     return {
       clients: [],
-      socket: io("http://localhost:5000"),
+      socket: io("http://ec2-54-159-198-233.compute-1.amazonaws.com:5000/"),
       codeRef: "Enter your code here",
       showOutput: false,
       output: "",
@@ -212,7 +212,10 @@ export default {
         this.jobId = "";
         this.status = "";
         this.output = "";
-        const { data } = await axios.post("http://localhost:5000/run", payload);
+        const { data } = await axios.post(
+          "http://ec2-54-159-198-233.compute-1.amazonaws.com:5000/run",
+          payload
+        );
         console.log("New 7 = " + JSON.stringify(data));
         this.jobId = data.jobId;
         let intervalId;
@@ -220,7 +223,7 @@ export default {
         // Polling Implementation
         intervalId = setInterval(async () => {
           const { data: dataRes } = await axios.get(
-            "http://localhost:5000/status",
+            "http://ec2-54-159-198-233.compute-1.amazonaws.com:5000/status",
             { params: { id: data.jobId } }
           );
           const { success, job, error } = dataRes;

@@ -11,7 +11,9 @@ Vue.use(VueRotuer, Vuelidate);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: SocketIO("http://localhost:5000"),
+    connection: SocketIO(
+      "http://ec2-54-159-198-233.compute-1.amazonaws.com:5000/"
+    ),
   })
 );
 
