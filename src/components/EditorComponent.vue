@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      content: "console.log('Hello World')",
+      content: "Enter you code here",
       cmOptions: {
         mode: {
           name: "javascript",

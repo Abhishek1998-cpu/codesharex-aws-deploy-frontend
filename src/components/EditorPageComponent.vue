@@ -157,7 +157,7 @@ export default {
     return {
       clients: [],
       socket: io("http://localhost:5000/"),
-      codeRef: "Enter your code here",
+      codeRef: "",
       showOutput: false,
       output: "",
       language: "cpp",
@@ -191,10 +191,12 @@ export default {
           });
         }
         this.clients = clients;
-        this.socket.emit(ACTIONS.SYNC_CODE, {
-          code: this.codeRef,
-          socketId: socketId,
-        });
+        if (this.codeRef !== "") {
+          this.socket.emit(ACTIONS.SYNC_CODE, {
+            code: this.codeRef,
+            socketId: socketId,
+          });
+        }
       });
       this.socket.on(ACTIONS.DISCONNECTED, ({ socketId, userName }) => {
         Vue.$toast.open({
@@ -207,24 +209,6 @@ export default {
     },
     async copyRoomId() {
       try {
-        const queryOpts = {
-          name: "clipboard-read",
-          allowWithoutGesture: false,
-        };
-        const queryOpts2 = {
-          name: "clipboard-write",
-          allowWithoutGesture: false,
-        };
-        const permissionStatus = await navigator.permissions.query(queryOpts);
-        const permissionStatus2 = await navigator.permissions.query(queryOpts2);
-        // Will be 'granted', 'denied' or 'prompt':
-        console.log(permissionStatus.state);
-        console.log(permissionStatus2.state);
-
-        // Listen for changes to the permission state
-        permissionStatus.onchange = () => {
-          console.log(permissionStatus.state);
-        };
         await navigator.clipboard.writeText(this.roomId);
         Vue.$toast.open({
           message: `Room Id has been copied`,
@@ -253,8 +237,6 @@ export default {
         language: this.language,
         code: this.codeRef,
       };
-      console.log(axios);
-      // console.log("New 1 = " + JSON.stringify(payload));
       try {
         this.jobId = "";
         this.status = "pending";
@@ -262,7 +244,6 @@ export default {
         this.showOuput = false;
         this.showMoreDetails = false;
         const { data } = await axios.post("http://localhost:5000/run", payload);
-        console.log("New 7 = " + JSON.stringify(data));
         this.jobId = data.jobId;
         let intervalId;
 
@@ -287,7 +268,6 @@ export default {
             clearInterval(intervalId);
             this.output = error;
           }
-          console.log(dataRes);
         }, 1000);
       } catch ({ response }) {
         if (response) {
