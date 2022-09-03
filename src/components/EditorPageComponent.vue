@@ -3,18 +3,23 @@
     <div class="aside">
       <div class="aside-inner">
         <div class="logo">
-          <h2 class="logo-image">Logo will be here</h2>
+          <img
+            class="logo-image"
+            src="../assets/codesharex.png"
+            alt="codesharexIcon"
+          />
         </div>
         <h3>User Connected</h3>
-        <div
-          class="clients-list"
-          v-for="client in clients"
-          :key="client.socketId"
-        >
-          <ClientComponent :userName="client.userName" />
+        <div class="clients-list">
+          <div v-for="client in clients" :key="client.socketId">
+            <ClientComponent :userName="client.userName" />
+          </div>
         </div>
       </div>
+      <p class="show-room-id">{{ this.roomId }}</p>
       <button class="copy-button" v-on:click="copyRoomId">Copy Room ID</button>
+      <!-- For creating divider  -->
+      <div class="logo"></div>
       <button class="leave-button" v-on:click="leaveRoom">Leave</button>
     </div>
     <div class="editor-wrapper">
@@ -61,7 +66,18 @@
           <div>
             <h3 style="text-align: left; font-weight: 400">Output:</h3>
           </div>
-          <div>
+          <div style="display: flex; flex-direction: row; align-items: center">
+            <div
+              class="semipolar-spinner"
+              :style="spinnerStyle"
+              v-if="this.status === 'pending'"
+            >
+              <div class="ring"></div>
+              <div class="ring"></div>
+              <div class="ring"></div>
+              <div class="ring"></div>
+              <div class="ring"></div>
+            </div>
             <span>
               <h4 v-if="showOutput">{{ output }}</h4>
             </span>
@@ -74,8 +90,7 @@
             justify-content: flex-start;
             align-items: flex-start;
             gap: 1rem;
-            padding-right: 1rem;
-            padding-left: 1rem;
+            padding: 1rem;
           "
         >
           <div>
@@ -87,13 +102,28 @@
               {{ showMoreDetails ? "Hide More Detals" : "Show More Detals" }}
             </button>
           </div>
-          <div v-if="showMoreDetails">
-            <h4 style="text-align: left; font-weight: 400">
+          <div v-if="showMoreDetails && showOutput">
+            <h4
+              style="
+                text-align: left;
+                font-weight: 400;
+                font-style: italic;
+                font-size: 14px;
+              "
+            >
               Status: {{ this.status }}
             </h4>
-            <h4 style="text-align: left; font-weight: 400">
+            <p
+              style="
+                text-align: left;
+                font-weight: 400;
+                font-style: italic;
+                margin-top: -1rem;
+                font-size: 14px;
+              "
+            >
               {{ this.jobId && `JobId: ${this.jobId}` }}
-            </h4>
+            </p>
           </div>
         </div>
       </div>
@@ -126,7 +156,7 @@ export default {
   data() {
     return {
       clients: [],
-      socket: io("http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/"),
+      socket: io("http://localhost:5000/"),
       codeRef: "Enter your code here",
       showOutput: false,
       output: "",
@@ -163,10 +193,9 @@ export default {
         this.clients = clients;
         this.socket.emit(ACTIONS.SYNC_CODE, {
           code: this.codeRef,
-          socketId,
+          socketId: socketId,
         });
       });
-
       this.socket.on(ACTIONS.DISCONNECTED, ({ socketId, userName }) => {
         Vue.$toast.open({
           message: `${userName} left the room.`,
@@ -178,6 +207,24 @@ export default {
     },
     async copyRoomId() {
       try {
+        const queryOpts = {
+          name: "clipboard-read",
+          allowWithoutGesture: false,
+        };
+        const queryOpts2 = {
+          name: "clipboard-write",
+          allowWithoutGesture: false,
+        };
+        const permissionStatus = await navigator.permissions.query(queryOpts);
+        const permissionStatus2 = await navigator.permissions.query(queryOpts2);
+        // Will be 'granted', 'denied' or 'prompt':
+        console.log(permissionStatus.state);
+        console.log(permissionStatus2.state);
+
+        // Listen for changes to the permission state
+        permissionStatus.onchange = () => {
+          console.log(permissionStatus.state);
+        };
         await navigator.clipboard.writeText(this.roomId);
         Vue.$toast.open({
           message: `Room Id has been copied`,
@@ -207,15 +254,14 @@ export default {
         code: this.codeRef,
       };
       console.log(axios);
-      console.log("New 1 = " + JSON.stringify(payload));
+      // console.log("New 1 = " + JSON.stringify(payload));
       try {
         this.jobId = "";
-        this.status = "";
+        this.status = "pending";
         this.output = "";
-        const { data } = await axios.post(
-          "http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/run",
-          payload
-        );
+        this.showOuput = false;
+        this.showMoreDetails = false;
+        const { data } = await axios.post("http://localhost:5000/run", payload);
         console.log("New 7 = " + JSON.stringify(data));
         this.jobId = data.jobId;
         let intervalId;
@@ -223,7 +269,7 @@ export default {
         // Polling Implementation
         intervalId = setInterval(async () => {
           const { data: dataRes } = await axios.get(
-            "http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/status",
+            "http://localhost:5000/status",
             { params: { id: data.jobId } }
           );
           const { success, job, error } = dataRes;
@@ -245,6 +291,7 @@ export default {
         }, 1000);
       } catch ({ response }) {
         if (response) {
+          console.log(response);
           const errMsg = response.data.err.stderr;
           this.output = errMsg;
           console.log(response);
@@ -258,6 +305,7 @@ export default {
       this.showOutput = true;
     },
     clearOutput() {
+      this.status = "";
       this.output = "";
       this.showOutput = false;
     },
@@ -305,27 +353,39 @@ export default {
 .aside-inner {
   flex: 1;
 }
-.clients-list {
+
+.show-room-id {
+  font-size: 12px;
+}
+/* .clients-list {
   display: flex;
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
+} */
+
+.clients-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .logo {
   border-bottom: 1px solid #424242;
   padding-bottom: 10px;
 }
-.logo-iamge {
-  height: 60px;
+.logo-image {
+  /* height: 60px; */
+  height: 6rem;
+  width: 9rem;
+  object-fit: cover;
 }
 
 button {
   background-color: lightblue;
   padding: 0.5rem;
   border-radius: 5px;
-  border: none;
+  border: 2px solid black;
   min-width: 5rem;
   margin: 0.5rem;
 }
@@ -333,10 +393,81 @@ button {
 button:hover {
   background-color: red;
   color: white;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 select {
   height: 2rem;
+}
+
+.semipolar-spinner,
+.semipolar-spinner * {
+  box-sizing: border-box;
+}
+
+.semipolar-spinner {
+  height: 35px;
+  width: 35px;
+  position: relative;
+}
+
+.semipolar-spinner .ring {
+  border-radius: 50%;
+  position: absolute;
+  border: calc(35px * 0.05) solid transparent;
+  border-top-color: red;
+  border-left-color: red;
+  animation: semipolar-spinner-animation 2s infinite;
+}
+
+.semipolar-spinner .ring:nth-child(1) {
+  height: calc(35px - 35px * 0.2 * 0);
+  width: calc(35px - 35px * 0.2 * 0);
+  top: calc(35px * 0.1 * 0);
+  left: calc(35px * 0.1 * 0);
+  animation-delay: calc(2000ms * 0.1 * 4);
+  z-index: 5;
+}
+
+.semipolar-spinner .ring:nth-child(2) {
+  height: calc(35px - 35px * 0.2 * 1);
+  width: calc(35px - 35px * 0.2 * 1);
+  top: calc(35px * 0.1 * 1);
+  left: calc(35px * 0.1 * 1);
+  animation-delay: calc(2000ms * 0.1 * 3);
+  z-index: 4;
+}
+
+.semipolar-spinner .ring:nth-child(3) {
+  height: calc(35px - 35px * 0.2 * 2);
+  width: calc(35px - 35px * 0.2 * 2);
+  top: calc(35px * 0.1 * 2);
+  left: calc(35px * 0.1 * 2);
+  animation-delay: calc(2000ms * 0.1 * 2);
+  z-index: 3;
+}
+
+.semipolar-spinner .ring:nth-child(4) {
+  height: calc(35px - 35px * 0.2 * 3);
+  width: calc(35px - 35px * 0.2 * 3);
+  top: calc(35px * 0.1 * 3);
+  left: calc(35px * 0.1 * 3);
+  animation-delay: calc(2000ms * 0.1 * 1);
+  z-index: 2;
+}
+
+.semipolar-spinner .ring:nth-child(5) {
+  height: calc(35px - 35px * 0.2 * 4);
+  width: calc(35px - 35px * 0.2 * 4);
+  top: calc(35px * 0.1 * 4);
+  left: calc(35px * 0.1 * 4);
+  animation-delay: calc(2000ms * 0.1 * 0);
+  z-index: 1;
+}
+
+@keyframes semipolar-spinner-animation {
+  50% {
+    transform: rotate(360deg) scale(0.7);
+  }
 }
 </style>

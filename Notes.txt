@@ -1,27 +1,28 @@
-Track Timing - 23.52, 35, 45, 51, 1:33, 1:44, 2:35, 2:52, 3.05
+#Track Timing - 23.52, 35, 45, 51, 1:33, 1:44, 2:35, 2:52, 3.05
 3:36 
 
-Track Timing Backend - 12:30, 24:16, 34:20
-Track Timing Database - Part 2 36:19 (Implemented Polling)
+#Track Timing Backend - 12:30, 24:16, 34:20
+#Track Timing Database - Part 2 36:19 (Implemented Polling)
 
+#Packages and Libraries
 Theme - Red and White
 For Validation - Vuelidate
 For Routing - Vue router
 Styling - Vue Bootstrap
 Notification - Vue toast notification - https://www.npmjs.com/package/vue-toast-notification
-Class Names - Hypenated
+Class Names - Hyphenated
 Component Names - CamelCase convention
 Props Names - pascelCase convention
 Avatar - Vue Avatar
 Code Compilation library - Code Mirror Open Source editor - https://codemirror.net/
 
 
-Backend - 
+#Backend - 
 Node Js Framework - Express
 Web Socket - socket.io, socket.io-client
 
 
-Features and Bugs left - 
+#Features and Bugs left - 
 Auto Sync on first load - Fixed - Done
 Leave room button functionality - Other user is getting notified - Fixed - Done
 Form Validation using Vuelidate - Left / Not required
@@ -30,23 +31,31 @@ Left alignment of the code editor - Done
 Height of the Editor should be half screen and in the other Half output will be shown - Done
 Code Compilation - C++ Done
 Code Compilation - Python Done
-Code Compilation - Js 
+Code Compilation - Js - Issue - Javascript is running after deployment but not running on local, it says socket disconnected
 Code Compilation - C Done
 Code Compilation - Java Done
 Error handling when the wrong code is provided by the user - Use axios in the Frontend - 10th Aug - Done
 Implementation of Mongo Database - 10th Aug - Done
 Use Vue Axios with the Normal Axios Package 
-Implement VueX for Global State Management
+Implement VueX for Global State Management - Not required
 Readme File Updation - Done - More Update required
 User Identification - User with same Name case 
 User Identification - User should be able to know which one is he in the list of user
 404 Page not found Implementation - Done
-Bug - User 3 is sometimes not getting the same code written in others 
 
-Build and Deployment - Done - Issue - 
-Java and C++ Compilation Issues
+Bug - User 2 or User 3 is sometimes not getting the same code written in User 1 
+- Not Done 
+- Issue is only happening after deployment 
+- Something is overwriting the code to Enter your code here 
 
-Code Compilation Task - 
+Clipboard issue after Amazon S3 and EC2 deployment - Show RoomId as text for Copying - Done
+Implement Loader or Enhance Show More Details UI - Loader Implement - Done
+User is not getting Syntax Error message in response - Done
+
+#Build and Deployment Issues - 
+Java and C++ Compilation Issues - Done
+
+#Code Compilation Task - 
 
 C++ - Done
 C++ Approach - We need to generate a C++ file with content from the Request
@@ -56,7 +65,7 @@ Python - Done -
 Approach - Execute file and get the result using Node js exec command
 
 
-Solution of Server already in use Issue - 
+#Solution of Server already in use Issue - 
 First, you would want to know which process is using port 3000
 
 sudo lsof -i :3000
@@ -65,7 +74,7 @@ this will list all PID listening on this port, once you have the PID you can ter
 kill -9 {PID}
 
 
-Mongo DB Atlas Details - 
+#Mongo DB Atlas Details - 
 Project Name - CodeShareX
 Username - Abhishek
 Pass - 000
@@ -81,16 +90,19 @@ Time Track -
 
 Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-13-57-11-58.us-west-1.compute.amazonaws.com
 Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-54-159-198-233.compute-1.amazonaws.com
-Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-3-93-242-64.compute-1.amazonaws.com
+#Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key.pem ubuntu@ec2-3-93-242-64.compute-1.amazonaws.com
 
 MyServerWebGroup Security 
 Connect to the AWS Terminal - ssh -i ~/Downloads/my-aws-key-2.pem ubuntu@ec2-54-167-66-30.compute-1.amazonaws.com
 
-Installed Package / Compiler's on AWS - Done
+#Installed Package / Compiler's on AWS EC2 Intance - Done
 g++
 gcc 
 Python3 
 Java
+pm2 (Node Js Process Manager)
+node 
+npm
 
 http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/
 
@@ -103,3 +115,9 @@ Read, Write and Execute access on Amazon EC2 instance command - sudo chmod u=rwx
 
 Frontend Deployed to Amazon S3 - http://codesharex-client.s3-website-us-east-1.amazonaws.com/
 Backend Deployed to Amazon EC2 - ec2-3-93-242-64.compute-1.amazonaws.com
+
+#Socket.io Notes - 
+
+.on is for listening the event
+.emit is for emitting an event or sending an event to the other part (client/server)
+ 

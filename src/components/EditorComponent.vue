@@ -53,11 +53,10 @@ export default {
         console.log("It should be working", code);
         if (code !== null) {
           this.content = code;
-          this.$emit("onCodeChange", code);
         }
       });
     },
-    onCmReady(cm) {
+    async onCmReady(cm) {
       console.log("the editor is readied!", cm);
       this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         console.log("It should be working", code);
@@ -69,7 +68,7 @@ export default {
     onCmFocus(cm) {
       console.log("the editor is focus!", cm);
     },
-    onChange(instance, changes) {
+    async onChange(instance, changes) {
       console.log(instance);
       console.log(changes);
       const { origin } = changes[0];

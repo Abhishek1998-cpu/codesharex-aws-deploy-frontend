@@ -8,7 +8,7 @@ const router = new Router({
   routes: [
     { name: "Home", path: "/", component: HomeComponent, props: true },
     {
-      name: "Editor",
+      name: "EditorPage",
       path: "/editor/:roomId",
       component: EditorPageComponent,
       props: true,

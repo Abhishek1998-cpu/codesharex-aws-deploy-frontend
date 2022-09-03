@@ -51,7 +51,6 @@ import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 Vue.use(VueToast);
 
@@ -66,18 +65,15 @@ export default {
       userName: "",
     };
   },
-  validations: {
-    userName: {
-      required,
-      maxLength: maxLength(12),
-      minLength: minLength(6),
-    },
-    roomId: {
-      required,
-    },
-  },
   methods: {
     onSubmit() {
+      if(this.checkForNumber(this.userName)){
+        Vue.$toast.open({
+          message: "Please do not provide number's in Name",
+          type: "error",
+        });
+        return
+      }
       if (!this.roomId || !this.userName) {
         Vue.$toast.open({
           message: "Please fill all the details before submitting",
@@ -90,10 +86,13 @@ export default {
         };
         console.log(data);
         this.$router.push({
-          name: "Editor",
+          name: "EditorPage",
           params: { roomId: this.roomId, userName: this.userName },
         });
       }
+    },
+    checkForNumber(str){
+      return /\d/.test(str);
     },
     genNewUuid() {
       const id = uuidv4();
