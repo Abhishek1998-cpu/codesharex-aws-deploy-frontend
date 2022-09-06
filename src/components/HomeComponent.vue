@@ -80,11 +80,6 @@ export default {
           type: "error",
         });
       } else {
-        const data = {
-          roomId: this.roomId,
-          userName: this.userName,
-        };
-        console.log(data);
         this.$router.push({
           name: "EditorPage",
           params: { roomId: this.roomId, userName: this.userName },
@@ -99,9 +94,7 @@ export default {
       return id;
     },
     createNewRoom() {
-      console.log("createNewRoom is called");
       const id = this.genNewUuid();
-      console.log(id);
       this.roomId = id;
       Vue.$toast.open("New room created!");
     },
@@ -144,6 +137,7 @@ button:hover {
   background-color: red;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 }
 
 a {

@@ -29,17 +29,9 @@
         @onCodeChange="syncOnCodeChange"
       />
       <div>
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-          "
-        >
-          <div style="display: flex; flex-direction: row; align-items: center">
-            <h3 style="font-weight: 400">Select Language: &nbsp;</h3>
+        <div class="options-wrapper">
+          <div class="select-language-dropdown">
+            <h3 class="font-bold">Select Language: &nbsp;</h3>
             <select v-model="language">
               <option value="c">C</option>
               <option value="cpp">C++</option>
@@ -53,23 +45,13 @@
             <button v-on:click="clearOutput">Clear Output</button>
           </div>
         </div>
-        <div
-          style="
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            gap: 1rem;
-            padding-right: 1rem;
-            padding-left: 1rem;
-          "
-        >
+        <div class="output-section">
           <div>
-            <h3 style="text-align: left; font-weight: 400">Output:</h3>
+            <h3 class="font-bold-left">Output:</h3>
           </div>
-          <div style="display: flex; flex-direction: row; align-items: center">
+          <div class="loader-output-wrapper">
             <div
               class="semipolar-spinner"
-              :style="spinnerStyle"
               v-if="this.status === 'pending'"
             >
               <div class="ring"></div>
@@ -83,45 +65,19 @@
             </span>
           </div>
         </div>
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-          "
-        >
+        <div class="show-more-output-section">
           <div>
             <button
               v-if="showOutput"
               v-on:click="renderMoreDetails"
-              style="margin: 0rem"
+              style="margin: 0rem" 
             >
               {{ showMoreDetails ? "Hide More Detals" : "Show More Detals" }}
             </button>
           </div>
           <div v-if="showMoreDetails && showOutput">
-            <h4
-              style="
-                text-align: left;
-                font-weight: 400;
-                font-style: italic;
-                font-size: 14px;
-              "
-            >
-              Status: {{ this.status }}
-            </h4>
-            <p
-              style="
-                text-align: left;
-                font-weight: 400;
-                font-style: italic;
-                margin-top: -1rem;
-                font-size: 14px;
-              "
-            >
+            <h4 class="display-status">Status: {{ this.status }}</h4>
+            <p class="job-id">
               {{ this.jobId && `JobId: ${this.jobId}` }}
             </p>
           </div>
@@ -323,6 +279,10 @@ export default {
   height: 100vh;
   grid-template-columns: 230px 1fr;
 }
+
+select {
+  cursor:pointer
+}
 .aside {
   display: flex;
   flex-direction: column;
@@ -337,14 +297,6 @@ export default {
 .show-room-id {
   font-size: 12px;
 }
-/* .clients-list {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-} */
-
 .clients-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -354,8 +306,69 @@ export default {
   border-bottom: 1px solid #424242;
   padding-bottom: 10px;
 }
+
+.options-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.font-bold {
+  font-weight: 400;
+}
+
+.font-bold-left {
+  font-weight: 400;
+  text-align: left;
+}
+
+.select-language-dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.loader-output-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.job-id {
+  text-align: left;
+  font-weight: 400;
+  font-style: italic;
+  margin-top: -1rem;
+  font-size: 14px;
+}
+
+.show-more-output-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.output-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.display-status {
+  text-align: left;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 14px;
+}
 .logo-image {
-  /* height: 60px; */
   height: 6rem;
   width: 9rem;
   object-fit: cover;
@@ -368,12 +381,13 @@ button {
   border: 2px solid black;
   min-width: 5rem;
   margin: 0.5rem;
+  cursor: pointer;
 }
 
 button:hover {
   background-color: red;
   color: white;
-  /* font-weight: bold; */
+  cursor: pointer
 }
 
 select {

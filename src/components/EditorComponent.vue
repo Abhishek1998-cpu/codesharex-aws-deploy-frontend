@@ -3,8 +3,6 @@
     <codemirror
       :value="content"
       :options="cmOptions"
-      @ready="onCmReady"
-      @focus="onCmFocus"
       @changes="onChange"
       style="text-align: left !important"
     >
@@ -33,7 +31,7 @@ export default {
   },
   data() {
     return {
-      content: "Enter you code here",
+      content: "Enter your code here!",
       cmOptions: {
         mode: {
           name: "javascript",
@@ -56,18 +54,6 @@ export default {
         }
       });
     },
-    async onCmReady(cm) {
-      console.log("the editor is readied!", cm);
-      this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
-        console.log("It should be working", code);
-        if (code !== null) {
-          this.content = code;
-        }
-      });
-    },
-    onCmFocus(cm) {
-      console.log("the editor is focus!", cm);
-    },
     async onChange(instance, changes) {
       console.log(instance);
       console.log(changes);
@@ -81,13 +67,6 @@ export default {
           code,
         });
       }
-      this.socket.on(ACTIONS.CODE_CHANGE, ({ code }) => {
-        console.log("It should be working", code);
-        if (code !== null) {
-          this.content = code;
-        }
-      });
-      console.log("New 5 = " + code);
     },
   },
   mounted() {
@@ -99,10 +78,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.CodeMirror {
-  font-size: 20px;
-  line-height: 1.6;
-  padding-top: 20px;
-}
-</style>
