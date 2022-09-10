@@ -1,9 +1,9 @@
 <template>
-  <div style="height: 98vh; display: flex; flex-direction: column">
-    <div style="margin-top: 5rem">
-      <h1 style="font-weight: 400">Welcome to CodeShareX!</h1>
-      <h3 style="margin-top: -1rem; font-weight: 400">
-        Online Live Code Editor
+  <div class="global-wrapper">
+    <div class="top-spacing">
+      <h1 class="bold">{{ en.Home.welcomeMsg }}</h1>
+      <h3 class="bold-top-spacing">
+        {{ en.Home.onlineLiveCodeEditor }}
       </h3>
       <div class="main-wrapper">
         <input
@@ -20,26 +20,15 @@
           placeholder="Enter Username"
           v-on:keyup.enter="handleEnterPress"
         />
-        <div style="display: flex; flex-direction: row; margin: 1rem">
+        <div class="button-section">
           <button v-on:click="onSubmit">Join</button>
           <button v-on:click="createNewRoom">New Room</button>
         </div>
       </div>
-      <div
-        style="
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          margin-top: 2rem;
-        "
-      >
+      <div class="joining-info-section">
         <div>
-          <h3 style="font-weight: 400; text-align: left">
-            &#9733; Please provide the details and then click on Join button
-          </h3>
-          <h3 style="font-weight: 400; text-align: left; margin-top: -1rem">
-            &#9733; If you don't have an invite then Click on New Room
-          </h3>
+          <h3 class="join-info-1">&#9733; {{ en.Home.joinInfo1 }}</h3>
+          <h3 class="join-info-2">&#9733; {{ en.Home.joinInfo2 }}</h3>
         </div>
       </div>
     </div>
@@ -51,14 +40,15 @@ import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
+import en from "../constants/translation.js";
 
 Vue.use(VueToast);
-
 export default {
   name: "HomeComponent",
   props: {
     msg: String,
   },
+  mixins: [en],
   data() {
     return {
       roomId: "",
@@ -67,12 +57,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      if(this.checkForNumber(this.userName)){
+      if (this.checkForNumber(this.userName)) {
         Vue.$toast.open({
           message: "Please do not provide number's in Name",
           type: "error",
         });
-        return
+        return;
       }
       if (!this.roomId || !this.userName) {
         Vue.$toast.open({
@@ -86,7 +76,7 @@ export default {
         });
       }
     },
-    checkForNumber(str){
+    checkForNumber(str) {
       return /\d/.test(str);
     },
     genNewUuid() {
@@ -106,7 +96,6 @@ export default {
 </script>
 
 <style scoped>
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,100;1,500&display=swap");
 
 * {
@@ -122,6 +111,49 @@ export default {
   padding: 0.5rem;
   margin: 0.2rem;
   min-width: 25%;
+}
+
+.global-wrapper {
+  height: 98vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+}
+
+.join-info-1 {
+  font-weight: 400;
+  text-align: left;
+}
+
+.top-spacing {
+  margin-top: 5rem;
+}
+
+.bold {
+  font-weight: 400;
+}
+
+.bold-top-spacing {
+  margin-top: -1rem;
+  font-weight: 400;
+}
+
+.join-info-2 {
+  font-weight: 400;
+  text-align: left;
+  margin-top: -1rem;
+}
+
+.joining-info-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 button {

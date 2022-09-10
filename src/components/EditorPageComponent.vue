@@ -9,7 +9,7 @@
             alt="codesharexIcon"
           />
         </div>
-        <h3>User Connected</h3>
+        <h3>{{ en.EditorPage.userConnected }}</h3>
         <div class="clients-list">
           <div v-for="client in clients" :key="client.socketId">
             <ClientComponent :userName="client.userName" />
@@ -17,10 +17,10 @@
         </div>
       </div>
       <p class="show-room-id">{{ this.roomId }}</p>
-      <button class="copy-button" v-on:click="copyRoomId">Copy Room ID</button>
+      <button class="copy-button" v-on:click="copyRoomId">{{en.EditorPage.copyRoomId}}</button>
       <!-- For creating divider  -->
       <div class="logo"></div>
-      <button class="leave-button" v-on:click="leaveRoom">Leave</button>
+      <button class="leave-button" v-on:click="leaveRoom">{{en.EditorPage.leaveRoom}}</button>
     </div>
     <div class="editor-wrapper">
       <EditorComponent
@@ -31,23 +31,23 @@
       <div>
         <div class="options-wrapper">
           <div class="select-language-dropdown">
-            <h3 class="font-bold">Select Language: &nbsp;</h3>
+            <h3 class="font-bold">{{en.EditorPage.selectLanguage}} &nbsp;</h3>
             <select v-model="language">
-              <option value="c">C</option>
-              <option value="cpp">C++</option>
-              <option value="js">Javascript</option>
-              <option value="py">Python</option>
-              <option value="java">Java</option>
+              <option value="c">{{ en.EditorPage.languageOption1 }}</option>
+              <option value="cpp">{{ en.EditorPage.languageOption2 }}</option>
+              <option value="js">{{ en.EditorPage.languageOption3 }}</option>
+              <option value="py">{{ en.EditorPage.languageOption4 }}</option>
+              <option value="java">{{ en.EditorPage.languageOption5 }}</option>
             </select>
           </div>
           <div>
-            <button v-on:click="executeCode">Run</button>
-            <button v-on:click="clearOutput">Clear Output</button>
+            <button v-on:click="executeCode">{{ en.EditorPage.run }}</button>
+            <button v-on:click="clearOutput">{{ en.EditorPage.clearOutput }}</button>
           </div>
         </div>
         <div class="output-section">
           <div>
-            <h3 class="font-bold-left">Output:</h3>
+            <h3 class="font-bold-left">{{ en.EditorPage.output }}</h3>
           </div>
           <div class="loader-output-wrapper">
             <div
@@ -72,7 +72,7 @@
               v-on:click="renderMoreDetails"
               style="margin: 0rem" 
             >
-              {{ showMoreDetails ? "Hide More Detals" : "Show More Detals" }}
+              {{ showMoreDetails ?  en.EditorPage.hideMoreDetails  : en.EditorPage.showMoreDetails }}
             </button>
           </div>
           <div v-if="showMoreDetails && showOutput">
@@ -96,6 +96,7 @@ import EditorComponent from "./EditorComponent";
 import axios from "axios";
 import io from "socket.io-client";
 import ACTIONS from "../Actions";
+import en from "../constants/translation.js";
 
 Vue.use(VueToast);
 
@@ -105,6 +106,7 @@ export default {
     userName: String,
     roomId: String,
   },
+  mixins: [en],
   components: {
     ClientComponent,
     EditorComponent,
@@ -112,7 +114,7 @@ export default {
   data() {
     return {
       clients: [],
-      socket: io("http://localhost:5000/"),
+      socket: io("http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/"),
       codeRef: "",
       showOutput: false,
       output: "",
@@ -199,14 +201,14 @@ export default {
         this.output = "";
         this.showOuput = false;
         this.showMoreDetails = false;
-        const { data } = await axios.post("http://localhost:5000/run", payload);
+        const { data } = await axios.post("http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/run", payload);
         this.jobId = data.jobId;
         let intervalId;
 
         // Polling Implementation
         intervalId = setInterval(async () => {
           const { data: dataRes } = await axios.get(
-            "http://localhost:5000/status",
+            "http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/status",
             { params: { id: data.jobId } }
           );
           const { success, job, error } = dataRes;

@@ -134,7 +134,7 @@ body {
   border: 1px solid white;
   color: white;
   background-color: darkcyan;
-  height: 5vmin;
+  /* height: 5vmin; */
   padding: 12px;
   /* font-family: $nunito-font; */
   text-decoration: none;

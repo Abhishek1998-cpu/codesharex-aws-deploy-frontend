@@ -16,7 +16,6 @@ import "codemirror/theme/dracula.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets";
-
 import { codemirror } from "vue-codemirror";
 import ACTIONS from "../Actions";
 

@@ -4,27 +4,18 @@ import VueRotuer from "vue-router";
 import router from "./router";
 import SocketIO from "socket.io-client";
 import VueSocketIO from "vue-socket.io";
-import Vuelidate from "vuelidate";
-import {BootstrapVue} from "bootstrap-vue"
-// import { SemipolarSpinner } from "epic-spinners";
 
-Vue.use(VueRotuer, Vuelidate);
+Vue.use(VueRotuer);
 Vue.use(
   new VueSocketIO({
     debug: true,
     connection: SocketIO(
-      "http://localhost:5000/"
+      "http://ec2-3-93-242-64.compute-1.amazonaws.com:5000/"
     ),
   })
 );
 
 Vue.config.productionTip = false;
-Vue.use(BootstrapVue)
-// Vue.use(SemipolarSpinner)
-
-// import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
 
 new Vue({
   router,

@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Avatar from "vue-avatar";
+import avatar from "vue-avatar";
 
 export default {
   name: "ClientComponent",
   components: {
-    Avatar,
+    avatar,
   },
   props: {
     userName: String,
